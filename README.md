@@ -15,3 +15,9 @@ Le système affiche les 20 premières catégories avec un numéros associé.
 2 : catégorie 2
 L'utilisateur aura le choix de faire défiler avec "z" ou "s" les catégories ou de revenir en arrière avec "a".
 Enfin, l'utilisateur pourra sélectionner une catégorie avec le chiffre qui lui sera associé.
+
+L'utilisateur vient de choisir une catégorie, le système affiche les 20 premiers produits de la catégorie.
+1 : produit 1
+2 : produit 2
+L'utilisateur aura le choix de faire défiler avec "z" ou "s" les produits ou de revenir en arrière avec "a".
+Enfin, l'utilisateur pourra sélectionner un produit avec le chiffre qui lui sera associé.

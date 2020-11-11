@@ -8,8 +8,7 @@ class Interface():
         
         pass
     
-    def display(self,data,selec = None):
-        
+    def display(self,data):
         
         
         if "text_header" in data:
