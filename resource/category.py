@@ -4,11 +4,10 @@
 
 class Category():
 
-    def __init__(self, name, ID, url, known, products, index):
+    def __init__(self, name, ID, url, known, products):
 
         self.name = name
         self.ID = ID
         self.url = url
         self.known = known
         self.products = products
-        self.ide = index

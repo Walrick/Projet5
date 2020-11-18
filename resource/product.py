@@ -3,13 +3,13 @@
 
 class Product():
     
-    def __init__(self, product_name, states, allergens, traces, categories, _keywords, url, countries):
+    def __init__(self, product_name, stores, allergens, traces, categories, _keywords, url, nutrition_grade_fr ):
         
         self.name = product_name
-        self.states = states
+        self.stores = stores
         self.allergens = allergens
         self.traces = traces
         self.categories = categories
         self._keywords = _keywords
         self.url = url
-        self.countries = countries
+        self.nutrition_grade_fr  = nutrition_grade_fr 
