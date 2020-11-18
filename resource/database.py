@@ -24,42 +24,53 @@ class Database ():
         querry = """USE on_test"""
         self.cursor.execute(querry)   
         
+        
         querry = """CREATE TABLE IF NOT EXISTS Category ( 
         id_category SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL,
         name_category VARCHAR(150) NOT NULL,
-        PRIMARY KEY (id_category),
-        UNIQUE INDEX (name_category)
+        PRIMARY KEY (id_category)
         )
-        ENGINE=InnoDB;"""
-        
+        ENGINE=InnoDB"""
         self.cursor.execute(querry)
         
+        
         querry = """CREATE TABLE IF NOT EXISTS Products (
-        id_aliment SMALLINT AUTO_INCREMENT NOT NULL,
+        id_products MEDIUMINT AUTO_INCREMENT NOT NULL,
         name_aliment VARCHAR(150) NOT NULL,
         category VARCHAR(150) NOT NULL,
         store TEXT,
-        nutrition_grade TEXT NOT NULL,
+        nutrition_grade TEXT,
         trace TEXT,
         allergens TEXT,
         url TEXT,
+        PRIMARY KEY (id_products)
         )
-        ENGINE = InnoDB;"""
-        
+        ENGINE=InnoDB;"""
         self.cursor.execute(querry)
         
+        querry = """CREATE TABLE IF NOT EXISTS Substitut (
+            id_substitut MEDIUMINT AUTO_INCREMENT NOT NULL,
+            name_substitut VARCHAR(150) NOT NULL,
+            PRIMARY KEY (id_substitut)
+        )
+        ENGINE=InnoDB;"""
+        self.cursor.execute(querry)
         
+        self.cursor.close()
         
-        c.execute('create table comptes (id INTEGER PRIMARY KEY,pseudo VARCHAR(50), credit INTEGER)[ENGINE = INNODB]')
-        # Inserer deux lignes de données
-        c.execute('insert into comptes values (1,"Adam","1000")')
-        c.execute('insert into comptes values (2,"Billy","250")')
-        c.execute('insert into comptes values (3,"Charly","125")')
-        
-        self.conn.commit()
     
-        # Fermer le curseur
-        c.close()
+    def save_category(self, category):
+        
+        
+        
+        querry = """INSERT INTO users (name, age) VALUES(%s, %s)"""
+                                            
+        self.cursor.execute(querry,
+                            category)
+        
+        
+        
+
         
         
         
