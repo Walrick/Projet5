@@ -28,7 +28,7 @@ class Controller ():
         self.index = 0
         self.page = 1
         self.table = "home"   
-        self.start_list_item = 0
+        self.start_list_item = 1
         self.end_list_item = 20
         
         self.model = resource.model.Model()
@@ -60,7 +60,7 @@ class Controller ():
                 )
                 if CHOISE == self.constent.choice_a :
                     self.table = self.constent.home
-                    self.start_list_item = 0
+                    self.start_list_item = 1
                     self.end_list_item = 20  
                     self.model.MAJ(
                         self.database.show_category(self.start_list_item, self.end_list_item),
@@ -73,8 +73,8 @@ class Controller ():
                         self.constent)             
                 elif CHOISE == self.constent.choice_z :
                     self.start_list_item -= 20
-                    if self.start_list_item < 0:
-                        self.start_list_item = 0
+                    if self.start_list_item < 1:
+                        self.start_list_item = 1
                     self.end_list_item -= 20
                     if self.end_list_item < 20:
                         self.end_list_item = 20
@@ -87,12 +87,13 @@ class Controller ():
                         self.api_query.product_requets_by_category(
                             self.category_select,
                             self.page))
-                    self.start_list_item = 0
+                    self.start_list_item = 1
                     self.end_list_item = 20
                     self.table = self.constent.produit_list
+                    self.list_products = build_list_products(self.database.show_products(self.category_select), self.start_list_item, self.end_list_item)
                     self.model.MAJ(
-                        self.database.show_products(self.category_select),
-                        self.constent)                     
+                        self.list_products,
+                        self.constent)                   
 
             if self.table == self.constent.produit_list:
                 
@@ -102,28 +103,25 @@ class Controller ():
                 if CHOISE == self.constent.choice_a :
                     self.table = self.constent.category_list
                     self.page = 1
-                    self.index = 0
-                    self.start_list_item = 0
+                    self.start_list_item = 1
                     self.end_list_item = 20
                     self.model.MAJ(
                         self.database.show_category(self.start_list_item, self.end_list_item),
                         self.constent) 
                 elif CHOISE == self.constent.choice_s:
-                    self.index += 20
                     self.page += 1
                     self.end_list_item += 20                   
                     self.start_list_item += 20
+                    
                     self.database.save_products(
                         self.api_query.product_requets_by_category(
                             self.category_select,
                             self.page))
+                    self.list_products = build_list_products(self.database.show_products(self.category_select), self.start_list_item, self.end_list_item)
                     self.model.MAJ(
-                        self.database.show_products(self.category_select),
+                        self.list_products,
                         self.constent)  
                 elif CHOISE == self.constent.choice_z :
-                    self.index -= 20
-                    if self.index < 0:
-                        self.index = 0
                     self.page -= 1
                     if self.page < 1:
                         self.page = 1
@@ -135,17 +133,21 @@ class Controller ():
                         self.api_query.product_requets_by_category(
                             self.category_select,
                             self.page))
+                    self.list_products = build_list_products(self.database.show_products(self.category_select), self.start_list_item, self.end_list_item)
                     self.model.MAJ(
-                        self.database.show_products(self.category_select),
-                        self.constent)  
+                        self.list_products,
+                        self.constent) 
                 else :
-                    self.product_select = int(CHOISE)
+                    self.product_select = self.list_products[int(CHOISE)][1]
                     self.start_list_item = 1
                     self.end_list_item = 20
                     self.table = self.constent.produit_selec       
                     self.page = 1
-                    self.model.MAJ(self.api_query, self.start_list_item, self.end_list_item, self.product_select,
-            self.constent)
+
+                    self.list_products = build_list_products(self.database.show_products(self.category_select), self.start_list_item, self.end_list_item)
+                    self.model.MAJ(
+                        self.list_products,
+                        self.constent)                     
                     
             if self.table == self.constent.produit_selec:
                 CHOISE = self.view.display(
@@ -155,10 +157,30 @@ class Controller ():
                     self.table = self.constent.produit_list
                     self.page = 1
                     self.index = 0
-                    self.start_list_item = 0
+                    self.start_list_item = 1
                     self.end_list_item = 20
                     self.model.MAJ(self.api_query, self.start_list_item, self.end_list_item, self.product_select,
             self.constent)
+    
+
+def build_list_products(data, start_list_item, end_list_item):
+    
+    list_products = []
+    index = start_list_item
+    counter = 1
+    for products in data:
+        if index == counter:
+            list_products.append( [index, products[1], products[0]])
+            index += 1
+        counter += 1
+        if end_list_item == counter:
+            break
+    if len (list_products) <19:
+        print("liste incomplete")
+    return list_products
+
+
+    
     
     
     

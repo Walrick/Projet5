@@ -53,25 +53,3 @@ class OpenfoodfactQuery():
                 
 
     
-    
-    def product_requets_by_product(self, category, page):
-        
-        """build product by query in product"""
-        
-        search = {
-            'action': 'process',
-            'tagtype_0': 'states', #which subject is selected (states)
-            'tag_contains_0': 'contains',#contains or not
-            'tag_0': "en:checked", #parameters to choose
-            'tagtype_1': 'categories', 
-            'tag_contains_1': 'contains',
-            'tag_1': category[1],        
-            'countries': 'France',
-            'json': 1,
-            'page': page
-            }
-        
-        send = requests.get(self.base_url + "cgi/search.pl" , params=search)
-        products = send.json()    
-        
-        return data
