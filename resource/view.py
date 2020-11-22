@@ -19,11 +19,15 @@ class View ():
                 print(text)
                 
         if "text_item_selec" in data:
-            print(data["text_item_selec"][0], data["text_item_selec"][1], data["text_item_selec"][2])
+            print(data["text_item_selec"][0], data["text_item_selec"][1], data["text_item_selec"][2], data["text_item_selec"][3])
                 
-        if "list_item" in data:
-            for item in data["list_item"][0]:
+        if "list_item_category" in data:
+            for item in data["list_item_category"][0]:
                 print(str(item[0]) + " : " +item[1])
+                
+        if "list_item_products" in data:
+            for item in data["list_item_products"][0]:
+                print(str(item[0]) + " : " +item[1]+ ", Nutri-Score : "+ item[3])            
                 
         if "text_corp" in data :
             for text in data["text_corp"]:

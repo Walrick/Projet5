@@ -28,8 +28,8 @@ class Model ():
                     "Choisi parmi les catégories :"
                 ],
                 "choise_text": "Faites votre choix",
-                "list_item": [
-                    (lambda : data)()
+                "list_item_category": [
+                    maj(data,"list_item_category")
                     ],
                     
                 "text_corp": [
@@ -41,10 +41,12 @@ class Model ():
         
             constent.produit_list: {
                 "text_header": [
+                    "Catégorie sélectionner : ",
+                    maj(data,"text_header"),
                     "Choisi parmi les produits :"
                 ],
-                "list_item": [
-                    (lambda : data)()
+                "list_item_products": [
+                    maj(data,"list_item_products")
                     ],
                 "choise_text": "Faites votre choix",
                 "text_corp": [
@@ -56,16 +58,24 @@ class Model ():
             
             constent.produit_selec: {
                 "text_header": [
-                    "Produit sélectionner :"
+                    "Choisi parmi les produits :"
                     ],
                 "text_item_selec": [
-
+                    "Produit sélectionner :",
+                    maj(data,"text_item_selec_1"),
+                    maj(data,"text_item_selec_2"),
+                    maj(data,"text_item_selec_3")
                     ],                
-                "list_item": [
-
+                "list_item_products": [
+                    maj(data,"list_item_products")
                     ],
                 "choise_text": "Faites votre choix"
             }
                     
         }
         
+def maj(data,key):
+    
+    if key in data:
+        return data[key]
+    

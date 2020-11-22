@@ -100,13 +100,13 @@ class Database ():
             if len(data) == 0 and len(products["categories"]) < 250:
                 
                 querry = """INSERT INTO Products (
-                name_products,
-                category,
-                store,
-                nutrition_grade,
-                trace,
-                allergens,
-                url) VALUES(%s, %s, %s, %s,%s, %s, %s)"""
+                    name_products,
+                    category,
+                    store,
+                    nutrition_grade,
+                    trace,
+                    allergens,
+                    url) VALUES(%s, %s, %s, %s,%s, %s, %s)"""
                                                     
                 self.cursor.execute(querry,
                                     (products["product_name"],
@@ -122,9 +122,17 @@ class Database ():
         
     def show_products(self, category):
         
-        querry = """SELECT id_products, name_products, nutrition_grade 
-        FROM Products 
-        WHERE category LIKE %s """
+        querry = """SELECT 
+            id_products,
+            name_products,
+            nutrition_grade,
+            store,
+            nutrition_grade,
+            trace,
+            allergens,
+            url
+            FROM Products 
+            WHERE category LIKE %s """
         self.cursor.execute(querry, ("%"+category+"%",))        
         data = self.cursor.fetchall()  
         return data 

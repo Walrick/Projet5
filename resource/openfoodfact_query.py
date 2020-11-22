@@ -5,7 +5,7 @@ import requests
 import resource.category
 import resource.product
 
-class OpenfoodfactQuery():
+class OpenFoodFactQuery():
     
     """ Openfoodfact query class for launch the query """
 
