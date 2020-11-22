@@ -17,6 +17,11 @@ class Controller ():
         self.view = resource.view.View()
         self.database = resource.database.Database()
         
+        data = self.api_query.get_category()
+        
+        self.database.save_category(data)
+
+        
         self.running = True
         self.product_select = "defaut"
         self.category_select = "defaut"
@@ -28,10 +33,7 @@ class Controller ():
         
         self.model = resource.model.Model()
         self.model.MAJ(
-            self.api_query,
-            self.start_list_item,
-            self.end_list_item,
-            self.product_select,
+            self.database.show_category(self.start_list_item, self.end_list_item),
             self.constent)
             
         
@@ -59,32 +61,39 @@ class Controller ():
                 if CHOISE == self.constent.choice_a :
                     self.table = self.constent.home
                     self.start_list_item = 0
-                    self.end_list_item = 20      
-                    self.model.MAJ(self.api_query, self.start_list_item, self.end_list_item, self.product_select,
-            self.constent)
+                    self.end_list_item = 20  
+                    self.model.MAJ(
+                        self.database.show_category(self.start_list_item, self.end_list_item),
+                        self.constent)            
                 elif CHOISE == self.constent.choice_s:
                     self.start_list_item += 20
                     self.end_list_item += 20
-                    self.model.MAJ(self.api_query, self.start_list_item, self.end_list_item, self.product_select,
-            self.constent)
+                    self.model.MAJ(
+                        self.database.show_category(self.start_list_item, self.end_list_item),
+                        self.constent)             
                 elif CHOISE == self.constent.choice_z :
                     self.start_list_item -= 20
-                    if self.start_list_item < 1:
-                        self.start_list_item = 1
+                    if self.start_list_item < 0:
+                        self.start_list_item = 0
                     self.end_list_item -= 20
-                    if self.end_list_item < 1:
+                    if self.end_list_item < 20:
                         self.end_list_item = 20
-                    self.model.MAJ(self.api_query, self.start_list_item, self.end_list_item, self.product_select,
-            self.constent)
+                    self.model.MAJ(
+                        self.database.show_category(self.start_list_item, self.end_list_item),
+                        self.constent) 
                 else :
-                    self.end_list_item = self.api_query.product_requets_by_category(
-                        int(CHOISE),self.page,self.index)
-                    self.category_select = int(CHOISE)
-                    self.start_list_item = 1
+                    self.category_select = self.database.show_category(int(CHOISE), int(CHOISE))[0][1]
+                    self.database.save_products(
+                        self.api_query.product_requets_by_category(
+                            self.category_select,
+                            self.page))
+                    self.start_list_item = 0
+                    self.end_list_item = 20
                     self.table = self.constent.produit_list
-                    self.model.MAJ(self.api_query, self.start_list_item, self.end_list_item, self.product_select,
-            self.constent)
-                    
+                    self.model.MAJ(
+                        self.database.show_products(self.category_select),
+                        self.constent)                     
+
             if self.table == self.constent.produit_list:
                 
                 CHOISE = self.view.display(
@@ -96,16 +105,21 @@ class Controller ():
                     self.index = 0
                     self.start_list_item = 0
                     self.end_list_item = 20
-                    self.model.MAJ(self.api_query, self.start_list_item, self.end_list_item, self.product_select,
-            self.constent)
+                    self.model.MAJ(
+                        self.database.show_category(self.start_list_item, self.end_list_item),
+                        self.constent) 
                 elif CHOISE == self.constent.choice_s:
                     self.index += 20
                     self.page += 1
-                    self.end_list_item = self.api_query.product_requets_by_category(
-                        self.category_select,self.page,self.index)                    
+                    self.end_list_item += 20                   
                     self.start_list_item += 20
-                    self.model.MAJ(self.api_query, self.start_list_item, self.end_list_item, self.product_select,
-            self.constent)
+                    self.database.save_products(
+                        self.api_query.product_requets_by_category(
+                            self.category_select,
+                            self.page))
+                    self.model.MAJ(
+                        self.database.show_products(self.category_select),
+                        self.constent)  
                 elif CHOISE == self.constent.choice_z :
                     self.index -= 20
                     if self.index < 0:
@@ -113,13 +127,17 @@ class Controller ():
                     self.page -= 1
                     if self.page < 1:
                         self.page = 1
-                    self.end_list_item = self.api_query.product_requets_by_category(
-                        self.category_select,self.page,self.index)                      
+                    self.end_list_item -= 20                    
                     self.start_list_item -= 20
                     if self.start_list_item < 1:
                         self.start_list_item = 1
-                    self.model.MAJ(self.api_query, self.start_list_item, self.end_list_item, self.product_select,
-            self.constent)
+                    self.database.save_products(
+                        self.api_query.product_requets_by_category(
+                            self.category_select,
+                            self.page))
+                    self.model.MAJ(
+                        self.database.show_products(self.category_select),
+                        self.constent)  
                 else :
                     self.product_select = int(CHOISE)
                     self.start_list_item = 1

@@ -22,8 +22,8 @@ class View ():
             print(data["text_item_selec"][0], data["text_item_selec"][1], data["text_item_selec"][2])
                 
         if "list_item" in data:
-            for key in range(data["list_item"][1], data["list_item"][2]):
-                print(str(key) + " : " +data["list_item"][0][key].name)
+            for item in data["list_item"][0]:
+                print(str(item[0]) + " : " +item[1])
                 
         if "text_corp" in data :
             for text in data["text_corp"]:

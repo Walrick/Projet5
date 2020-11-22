@@ -11,6 +11,8 @@ class Database ():
     
     def __init__(self):
         
+        """Manage the database """
+        
         self.database = mysql.connector.connect(
             host=MYSQL_HOST,
             user=MYSQL_USER,
@@ -26,7 +28,7 @@ class Database ():
         
         
         querry = """CREATE TABLE IF NOT EXISTS Category ( 
-        id_category SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL,
+        id_category MEDIUMINT UNSIGNED AUTO_INCREMENT NOT NULL,
         name_category VARCHAR(150) NOT NULL,
         PRIMARY KEY (id_category)
         )
@@ -36,8 +38,8 @@ class Database ():
         
         querry = """CREATE TABLE IF NOT EXISTS Products (
         id_products MEDIUMINT AUTO_INCREMENT NOT NULL,
-        name_aliment VARCHAR(150) NOT NULL,
-        category VARCHAR(150) NOT NULL,
+        name_products VARCHAR(150) NOT NULL,
+        category VARCHAR(250) NOT NULL,
         store TEXT,
         nutrition_grade TEXT,
         trace TEXT,
@@ -49,28 +51,81 @@ class Database ():
         self.cursor.execute(querry)
         
         querry = """CREATE TABLE IF NOT EXISTS Substitut (
-            id_substitut MEDIUMINT AUTO_INCREMENT NOT NULL,
-            name_substitut VARCHAR(150) NOT NULL,
-            PRIMARY KEY (id_substitut)
+        id_substitut MEDIUMINT AUTO_INCREMENT NOT NULL,
+        name_substitut VARCHAR(150) NOT NULL,
+        PRIMARY KEY (id_substitut)
         )
         ENGINE=InnoDB;"""
         self.cursor.execute(querry)
         
-        self.cursor.close()
-        
     
-    def save_category(self, category):
+    def save_category(self, data):
         
+        for category in data:
         
+            if not ":" in category["name"] and len(category["name"])<150:
+                querry = """SELECT name_category 
+                FROM Category 
+                WHERE name_category = %s"""
+                self.cursor.execute(querry, (category["name"],))
+                send = self.cursor.fetchall()
+                if len(send) == 0:
+                    
+                    querry = """INSERT INTO Category ( name_category) VALUES( %s)"""
+                                                        
+                    self.cursor.execute(querry,
+                                        (category["name"],))     
+                    
+                    self.database.commit()
+                
+    def show_category(self, start_list_item, end_list_item):
         
-        querry = """INSERT INTO users (name, age) VALUES(%s, %s)"""
-                                            
-        self.cursor.execute(querry,
-                            category)
+        querry = """SELECT id_category, name_category 
+        FROM Category 
+        WHERE id_category >= %s AND id_category <= %s"""
+        self.cursor.execute(querry, (start_list_item,end_list_item))        
+        data = self.cursor.fetchall()  
         
-        
-        
+        return data
 
+    def save_products(self, data):
+        
+        for products in data:
+            
+            querry = """SELECT name_products FROM Products WHERE name_products = %s"""
+            self.cursor.execute(querry, (products["product_name"],))
+            data = self.cursor.fetchall()
+            if not "nutrition_grade_fr" in products :
+                products["nutrition_grade_fr"] = "Non applicable"
+            if len(data) == 0 and len(products["categories"]) < 250:
+                
+                querry = """INSERT INTO Products (
+                name_products,
+                category,
+                store,
+                nutrition_grade,
+                trace,
+                allergens,
+                url) VALUES(%s, %s, %s, %s,%s, %s, %s)"""
+                                                    
+                self.cursor.execute(querry,
+                                    (products["product_name"],
+                                     products["categories"],
+                                     products["stores"],
+                                     products["nutrition_grade_fr"],
+                                     products["traces"],
+                                     products["allergens"],
+                                     products["url"]))     
+                
+                self.database.commit()
         
         
+    def show_products(self, category):
         
+        querry = """SELECT id_products, name_products, nutrition_grade 
+        FROM Products 
+        WHERE category LIKE %s """
+        self.cursor.execute(querry, ("%"+category+"%",))        
+        data = self.cursor.fetchall()  
+        return data 
+    
