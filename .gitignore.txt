@@ -1,4 +1,5 @@
 .git
-__pycache__
-resource/__pycache__/*
+__pycache__/
+resource/__pycache__/
 .gitignore
+__pycache__

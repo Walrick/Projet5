@@ -52,12 +52,16 @@ class Database ():
         
         querry = """CREATE TABLE IF NOT EXISTS Substitut (
         id_substitut MEDIUMINT AUTO_INCREMENT NOT NULL,
-        name_substitut VARCHAR(150) NOT NULL,
+        id_substitué_product MEDIUMINT NOT NULL,
+        id_substitution_product  MEDIUMINT NOT NULL,
+        CONSTRAINT fk_id_substituted_product FOREIGN KEY (id_substitué_product) REFERENCES Products(id_products),
+        CONSTRAINT fk_id_substitute_product FOREIGN KEY (id_substitution_product) REFERENCES Products(id_products),
         PRIMARY KEY (id_substitut)
         )
         ENGINE=InnoDB;"""
         self.cursor.execute(querry)
         
+
     
     def save_category(self, data):
         
@@ -127,7 +131,6 @@ class Database ():
             name_products,
             nutrition_grade,
             store,
-            nutrition_grade,
             trace,
             allergens,
             url
@@ -136,4 +139,52 @@ class Database ():
         self.cursor.execute(querry, ("%"+category+"%",))        
         data = self.cursor.fetchall()  
         return data 
+    
+    def show_products_for_ID(self, ID):
+        
+        querry = """SELECT 
+            id_products,
+            name_products,
+            nutrition_grade,
+            store,
+            trace,
+            allergens,
+            url
+            FROM Products 
+            WHERE id_products = %s """
+        self.cursor.execute(querry, (ID,))        
+        data = self.cursor.fetchall()  
+        return data     
+    
+    def save_substitut(self, id_substitution_product, id_substitué_product):
+        
+        querry = """
+            SELECT id_substitué_product, id_substitution_product
+            FROM Substitut 
+            WHERE id_substitué_product = %s and id_substitution_product = %s"""
+        self.cursor.execute(querry, (id_substitué_product,id_substitution_product))
+        data = self.cursor.fetchall()     
+        if len(data) == 0 :
+            
+            querry = """INSERT INTO Substitut (
+                id_substitué_product,
+                id_substitution_product
+                ) 
+                VALUES(%s, %s)"""            
+        
+            self.cursor.execute(querry,
+                                (id_substitué_product,
+                                 id_substitution_product))     
+            
+            self.database.commit()
+            
+    def show_substitut(self):
+        
+        querry = """SELECT id_substitut, id_substitué_product, id_substitution_product
+            FROM Substitut 
+            """
+        self.cursor.execute(querry,) 
+        data = self.cursor.fetchall()  
+        
+        return data
     

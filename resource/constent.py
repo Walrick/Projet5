@@ -15,6 +15,7 @@ CATEGORY_LIST = "category_list"
 SUBSTITUT = "substitut"  
 PRODUIT_LIST = "produit_list"
 PRODUIT_SELEC = "produit_selec"
+SUBSTITUT_DISPLAY = "substitut_display"
 
 
 class Constent():
@@ -33,5 +34,6 @@ class Constent():
         self.substitut = SUBSTITUT
         self.produit_list = PRODUIT_LIST
         self.produit_selec = PRODUIT_SELEC
+        self.substitut_display  = SUBSTITUT_DISPLAY
 
 

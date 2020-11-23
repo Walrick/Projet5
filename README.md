@@ -30,3 +30,16 @@ Produit sélectionner : score de nutrition, trace, allergène, où acheter, etc.
 2 : substitue 2 score de nutrition, trace, allergène, où acheter, etc.
 L'utilisateur aura le choix de faire défiler avec "z" ou "s" les substitues ou de revenir en arrière avec "a".
 Enfin, l'utilisateur pourra sélectionner un substitue avec le chiffre qui lui sera associé.
+
+L'utilisateur a choisi - 2 : Voir les produits substitués
+le système affiche une liste de produits qui a des substituts
+1 - produit 1  - nom, nombre de substitue.
+2 - produit 2  - nom, nombre de substitue.
+L'utilisateur aura le choix de faire défiler avec "z" ou "s" les produits ou de revenir en arrière avec "a".
+Enfin, l'utilisateur pourra sélectionner un produit avec le chiffre qui lui sera associé pour voir les substituts.
+
+L'utilisateur a choisi un produit avec des substituts :
+Voir les produits substitués, le système affiche une liste de produits substitués
+1 - substitue 1 - score de nutrition, trace, allergène, où acheter, etc.
+2 - substitue 2 - score de nutrition, trace, allergène, où acheter, etc.
+L'utilisateur aura le choix de faire défiler avec "z" ou "s" les produits ou de revenir en arrière avec "a".

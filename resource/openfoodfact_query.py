@@ -11,11 +11,11 @@ class OpenFoodFactQuery():
 
     def __init__(self):
         
-        """ build category """
-        
         self.base_url = "https://fr.openfoodfacts.org/"
          
     def get_category(self):
+        
+        """ build category """
 
         search = {
             'countries': 'France',

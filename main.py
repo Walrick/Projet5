@@ -7,7 +7,7 @@ import resource.controller
 
 
 
-class Main():
+class Main:
     
     def __init__(self):
         
