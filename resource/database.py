@@ -26,7 +26,7 @@ class Database:
         self.cursor = self.database.cursor()
 
         # Execute command in data.sql
-        query = """source resource/data.sql"""
+        query = """SOURCE init.sql;"""
         self.cursor.execute(query)
 
     def save_category(self, data):
