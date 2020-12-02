@@ -1,5 +1,0 @@
-.git
-__pycache__/
-resource/__pycache__/
-.gitignore
-__pycache__
