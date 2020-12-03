@@ -26,8 +26,11 @@ class Database:
         self.cursor = self.database.cursor()
 
         # Execute command in data.sql
-        query = """SOURCE init.sql;"""
-        self.cursor.execute(query)
+    #    query = """SOURCE C:\users\jerem\documents\projet_openclassroom\projet_5\programme\resource\init.sql;"""
+        sql = open("resource/init.sql").read()
+        sql_parts = sql.split(";")
+        for query in sql_parts:
+            self.cursor.execute(query)
 
     def save_category(self, data):
 

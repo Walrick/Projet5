@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS Pur_Beurre;
 
 /* Select database */
-USE Pur_Beurre ;
+USE Pur_Beurre;
 
 /* Set timezone */
 SET GLOBAL time_zone = '+1:00';
