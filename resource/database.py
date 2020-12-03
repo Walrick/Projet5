@@ -26,7 +26,6 @@ class Database:
         self.cursor = self.database.cursor()
 
         # Execute command in data.sql
-    #    query = """SOURCE C:\users\jerem\documents\projet_openclassroom\projet_5\programme\resource\init.sql;"""
         sql = open("resource/init.sql").read()
         sql_parts = sql.split(";")
         for query in sql_parts:
@@ -83,12 +82,15 @@ class Database:
                     url) VALUES(%s, %s, %s, %s,%s, %s)"""
 
                 self.cursor.execute(query,
-                                    (products["product_name"],
-                                     products["stores"],
-                                     products["nutrition_grade_fr"],
-                                     products["traces"],
-                                     products["allergens"],
-                                     products["url"]))
+                                    (
+                                        products["product_name"],
+                                        products["stores"],
+                                        products["nutrition_grade_fr"],
+                                        products["traces"],
+                                        products["allergens"],
+                                        products["url"]
+                                    )
+                                    )
 
                 self.database.commit()
 

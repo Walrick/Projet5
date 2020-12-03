@@ -50,13 +50,13 @@ class Controller:
                 if choice == constant.CHOICE_1:
                     self.table = constant.CATEGORY_LIST
 
-                if choice == constant.CHOICE_2:
+                elif choice == constant.CHOICE_2:
                     self.table = constant.SUBSTITUT
                     self.list_substitut = self.database.show_substitut(
                         self.start_list_item,
                         self.end_list_item
                     )
-                if choice == constant.CHOICE_QUIT:
+                elif choice == constant.CHOICE_QUIT:
                     self.running = False
 
             if self.table == constant.CATEGORY_LIST:
@@ -80,25 +80,32 @@ class Controller:
                     self.end_list_item -= 20
                     if self.end_list_item < 20:
                         self.end_list_item = 20
-                else:
-                    try:
-                        self.category_select_name = self.database.show_category(
-                            int(choice), int(choice))[0][1]
-                        self.category_select_id = int(choice)
-                        self.database.save_products(
-                            self.api_query.product_requets_by_category(
-                                self.category_select_name,
-                                self.page))
-                        self.start_list_item = 0
-                        self.end_list_item = 20
-                        self.table = constant.PRODUIT_LIST
-                        self.list_products = self.database.show_products(
-                            self.category_select_id,
-                            self.start_list_item,
-                            self.end_list_item,
-                            "SHORT")
-
-                    except:
+                elif choice is not None:
+                    if choice.isdigit():
+                        choice = int(choice)
+                        if self.start_list_item <= choice \
+                                <= self.end_list_item:
+                            self.category_select_name = \
+                                self.database.show_category(
+                                    int(choice), int(choice)
+                                )[0][1]
+                            self.category_select_id = int(choice)
+                            self.database.save_products(
+                                self.api_query.product_requets_by_category(
+                                    self.category_select_name,
+                                    self.page
+                                )
+                            )
+                            self.start_list_item = 0
+                            self.end_list_item = 20
+                            self.table = constant.PRODUIT_LIST
+                            self.list_products = self.database.show_products(
+                                self.category_select_id,
+                                self.start_list_item,
+                                self.end_list_item,
+                                "SHORT"
+                            )
+                    else:
                         print("mauvaise commande")
 
             if self.table == constant.PRODUIT_LIST:
@@ -120,12 +127,15 @@ class Controller:
                     self.database.save_products(
                         self.api_query.product_requets_by_category(
                             self.category_select_name,
-                            self.page))
+                            self.page
+                        )
+                    )
                     self.list_products = self.database.show_products(
                         self.category_select_id,
                         self.start_list_item,
                         self.end_list_item,
-                        "SHORT")
+                        "SHORT"
+                    )
                 elif choice == constant.CHOICE_Z:
                     self.page -= 1
                     if self.page < 1:
@@ -139,29 +149,37 @@ class Controller:
                     self.database.save_products(
                         self.api_query.product_requets_by_category(
                             self.category_select_name,
-                            self.page))
+                            self.page
+                        )
+                    )
                     self.list_products = self.database.show_products(
                         self.category_select_id,
                         self.start_list_item,
                         self.end_list_item,
-                        "SHORT")
-                else:
-                    try:
-                        id = int(choice) - self.start_list_item
-                        self.product_select_id = self.list_products[id][2]
-                        self.start_list_item = 0
-                        self.end_list_item = 20
-                        self.table = constant.PRODUIT_SELEC
-                        self.page = 1
-                        self.product_select = self.database.show_products_for_id(
-                            self.product_select_id
-                        )[0]
-                        self.list_products = self.database.show_products(
-                            self.category_select_id,
-                            self.start_list_item,
-                            self.end_list_item,
-                            "FULL")
-                    except:
+                        "SHORT"
+                    )
+                elif choice is not None:
+                    if choice.isdigit():
+                        choice = int(choice)
+                        if self.start_list_item <= choice \
+                                <= self.end_list_item:
+                            id = int(choice) - self.start_list_item
+                            self.product_select_id = self.list_products[id][2]
+                            self.start_list_item = 0
+                            self.end_list_item = 10
+                            self.table = constant.PRODUIT_SELEC
+                            self.page = 1
+                            self.product_select = \
+                                self.database.show_products_for_id(
+                                    self.product_select_id
+                                )[0]
+                            self.list_products = self.database.show_products(
+                                self.category_select_id,
+                                self.start_list_item,
+                                self.end_list_item,
+                                "FULL"
+                            )
+                    else:
                         print("mauvaise commande")
 
             if self.table == constant.PRODUIT_SELEC:
@@ -185,53 +203,66 @@ class Controller:
                         self.category_select_id,
                         self.start_list_item,
                         self.end_list_item,
-                        "SHORT")
+                        "SHORT"
+                    )
                 elif choice == constant.CHOICE_S:
                     self.page += 1
-                    self.end_list_item += 20
-                    self.start_list_item += 20
+                    self.end_list_item += 10
+                    self.start_list_item += 10
                     self.database.save_products(
                         self.api_query.product_requets_by_category(
                             self.category_select_name,
-                            self.page))
+                            self.page
+                        )
+                    )
                     self.list_products = self.database.show_products(
                         self.category_select_id,
                         self.start_list_item,
                         self.end_list_item,
-                        "FULL")
+                        "FULL"
+                    )
                 elif choice == constant.CHOICE_Z:
                     self.page -= 1
                     if self.page < 1:
                         self.page = 1
-                    self.end_list_item -= 20
-                    self.start_list_item -= 20
+                    self.end_list_item -= 10
+                    self.start_list_item -= 10
                     if self.start_list_item < 0:
                         self.start_list_item = 0
                     self.database.save_products(
                         self.api_query.product_requets_by_category(
                             self.category_select_name,
-                            self.page))
+                            self.page
+                        )
+                    )
                     self.list_products = self.database.show_products(
                         self.category_select_id,
                         self.start_list_item,
                         self.end_list_item,
-                        "FULL")
-                else:
-                    try:
-                        id = int(choice) - self.start_list_item
-                        self.subtitut_select_id = self.list_products[id][2]
-                        self.database.save_substitut(
-                            self.subtitut_select_id, self.product_select_id)
-                        self.start_list_item = 0
-                        self.end_list_item = 20
-                        self.table = constant.PRODUIT_LIST
-                        self.page = 1
-                        self.list_products = self.database.show_products(
-                            self.category_select_id,
-                            self.start_list_item,
-                            self.end_list_item,
-                            "SHORT")
-                    except:
+                        "FULL"
+                    )
+                elif choice is not None:
+                    if choice.isdigit():
+                        choice = int(choice)
+                        if self.start_list_item <= choice \
+                                <= self.end_list_item:
+                            id = int(choice) - self.start_list_item
+                            self.subtitut_select_id = self.list_products[id][2]
+                            self.database.save_substitut(
+                                self.subtitut_select_id,
+                                self.product_select_id
+                            )
+                            self.start_list_item = 0
+                            self.end_list_item = 10
+                            self.table = constant.PRODUIT_LIST
+                            self.page = 1
+                            self.list_products = self.database.show_products(
+                                self.category_select_id,
+                                self.start_list_item,
+                                self.end_list_item,
+                                "SHORT"
+                            )
+                    else:
                         print("mauvaise commande")
 
             if self.table == constant.SUBSTITUT:
@@ -245,35 +276,42 @@ class Controller:
                     self.start_list_item = 0
                     self.end_list_item = 20
                 elif choice == constant.CHOICE_S:
-                    self.end_list_item += 20
-                    self.start_list_item += 20
+                    self.end_list_item += 10
+                    self.start_list_item += 10
                     self.list_substitut = self.database.show_substitut(
                         self.start_list_item,
                         self.end_list_item
                     )
                 elif choice == constant.CHOICE_Z:
-                    self.end_list_item -= 20
-                    self.start_list_item -= 20
+                    self.end_list_item -= 10
+                    self.start_list_item -= 10
                     if self.start_list_item < 0:
                         self.start_list_item = 0
                     self.list_substitut = self.database.show_substitut(
                         self.start_list_item,
                         self.end_list_item
                     )
-                else:
-                    try:
-                        id = int(choice) - self.start_list_item
-                        self.product_select_id = self.list_substitut[id][1]
-                        self.product_select = self.database.show_products_for_id(
-                            self.product_select_id)[0]
-                        self.start_list_item = 0
-                        self.end_list_item = 20
-                        self.table = constant.SUBSTITUT_DISPLAY
-                        self.list_products = self.database.show_substitut_view(
-                            self.product_select_id,
-                            self.start_list_item,
-                            self.end_list_item)
-                    except:
+                elif choice is not None:
+                    if choice.isdigit():
+                        choice = int(choice)
+                        if self.start_list_item <= choice \
+                                <= self.end_list_item:
+                            id = int(choice) - self.start_list_item
+                            self.product_select_id = self.list_substitut[id][1]
+                            self.product_select = \
+                                self.database.show_products_for_id(
+                                    self.product_select_id
+                                )[0]
+                            self.start_list_item = 0
+                            self.end_list_item = 20
+                            self.table = constant.SUBSTITUT_DISPLAY
+                            self.list_products = \
+                                self.database.show_substitut_view(
+                                    self.product_select_id,
+                                    self.start_list_item,
+                                    self.end_list_item
+                                )
+                    else:
                         print("mauvaise commande")
 
             if self.table == constant.SUBSTITUT_DISPLAY:
