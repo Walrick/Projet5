@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf8 -*-
 
+import os
+import sys
 
 import resource.controller
-import os
 
 
 class Main:
@@ -16,7 +17,10 @@ class Main:
             lg = line.split(" ")
             os.environ[lg[0]] = lg[2]
 
-        self.controller = resource.controller.Controller()
+        # get the launch options
+        arg = sys.argv
+
+        self.controller = resource.controller.Controller(arg)
 
     def launch(self):
         self.controller.control()

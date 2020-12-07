@@ -51,7 +51,7 @@ class Database:
 
                     self.database.commit()
 
-    def show_category(self, start_list_item, end_list_item):
+    def get_category(self, start_list_item, end_list_item):
 
         query = """SELECT id_category, name_category
         FROM Category
@@ -69,10 +69,31 @@ class Database:
             SELECT name_products FROM Products WHERE name_products = %s"""
             self.cursor.execute(query, (products["product_name"],))
             data = self.cursor.fetchall()
-            if "nutrition_grade_fr" not in products:
-                products["nutrition_grade_fr"] = "Non applicable"
+
+            # fill the table Products
             if len(data) == 0 and len(products["categories"]) < 250:
-                # fill the table Products
+                # Change "nutrition_grade_fr" if absent
+                if "nutrition_grade_fr" not in products:
+                    products["nutrition_grade_fr"] = "Non applicable"
+                # Change "allergens" type build en:egg in egg
+                if "allergens" in products:
+                    allergens = []
+                    text = products["allergens"].split(",")
+                    for allergen in text:
+                        allerg = list(allergen)
+                        del allerg[:3]
+                        allergens.append("".join(allerg))
+                    products["allergens"] = ", ".join(allergens)
+                # Change "traces" type build en:gluten in gluten
+                if "traces" in products:
+                    traces = []
+                    text = products["traces"].split(",")
+                    for trace in text:
+                        tra = list(trace)
+                        del tra[:3]
+                        traces.append("".join(tra))
+                    products["traces"] = ", ".join(traces)
+
                 query = """INSERT INTO Products (
                     name_products,
                     store,
@@ -133,7 +154,7 @@ class Database:
 
                         self.database.commit()
 
-    def show_products(
+    def get_products(
             self,
             id_category,
             start_list_item,
@@ -185,7 +206,7 @@ class Database:
 
         return list_products
 
-    def show_products_for_id(self, id_prod):
+    def get_products_for_id(self, id_prod):
 
         query = """SELECT
             id_products,
@@ -222,7 +243,7 @@ class Database:
 
             self.database.commit()
 
-    def show_substitut(self, start_list_item, end_list_item):
+    def get_substitut(self, start_list_item, end_list_item):
         limit = end_list_item - start_list_item
 
         query = """
@@ -250,7 +271,7 @@ class Database:
 
         return list_products
 
-    def show_substitut_view(self, product_id, start_list_item, end_list_item):
+    def get_substitut_view(self, product_id, start_list_item, end_list_item):
         limit = end_list_item - start_list_item
 
         query = """

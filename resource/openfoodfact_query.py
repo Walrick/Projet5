@@ -6,9 +6,7 @@ import requests
 
 class OpenFoodFactQuery:
     """ Openfoodfact query class for launch the query """
-
-    def __init__(self):
-        self.base_url = "https://fr.openfoodfacts.org/"
+    BASE_URL = "https://fr.openfoodfacts.org/"
 
     def get_category(self):
         """ build category """
@@ -17,12 +15,12 @@ class OpenFoodFactQuery:
             'countries': 'France',
             'json': 1,
         }
-        send = requests.get(self.base_url + "categories", params=search)
+        send = requests.get(self.BASE_URL + "categories", params=search)
         category = send.json()
 
         return category["tags"]
 
-    def product_requets_by_category(self, category, page):
+    def product_requests_by_category(self, category, page):
         """build product by query in category"""
 
         search = {
@@ -38,7 +36,7 @@ class OpenFoodFactQuery:
             'page': page
         }
 
-        send = requests.get(self.base_url + "cgi/search.pl", params=search)
+        send = requests.get(self.BASE_URL + "cgi/search.pl", params=search)
         products = send.json()
 
         return products["products"]
