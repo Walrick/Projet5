@@ -51,9 +51,8 @@ class Controller:
 
             if self.table == constants.HOME:
 
-                choice = self.view.display(
-                    constants.STATE[self.table]
-                )
+                self.view.display(constants.STATE[self.table])
+                choice = self.view.input()
                 if choice == constants.CHOICE_1:
                     self.table = constants.CATEGORY_LIST
 
@@ -72,7 +71,9 @@ class Controller:
                         self.start_list_item, self.end_list_item)
                 }
                 dic_text = constants.STATE[self.table](data)
-                choice = self.view.display(dic_text)
+                self.view.display(dic_text)
+                choice = self.view.input()
+
                 if choice == constants.CHOICE_A:
                     self.table = constants.HOME
                     self.start_list_item = 0
@@ -121,7 +122,9 @@ class Controller:
                     constants.TEXT_HEADER: self.category_select_name
                 }
                 dic_text = constants.STATE[self.table](data)
-                choice = self.view.display(dic_text)
+                self.view.display(dic_text)
+                choice = self.view.input()
+
                 if choice == constants.CHOICE_A:
                     self.table = constants.CATEGORY_LIST
                     self.page = 1
@@ -169,7 +172,7 @@ class Controller:
                     if choice.isdigit():
                         choice = int(choice)
                         if self.start_list_item <= choice \
-                                <= self.end_list_item:
+                                <= len(self.list_products)-1:
                             id_choice = int(choice) - self.start_list_item
                             self.product_select_id = \
                                 self.list_products[id_choice][2]
@@ -208,7 +211,9 @@ class Controller:
                         self.product_select[6]
                 }
                 dic_text = constants.STATE[self.table](data)
-                choice = self.view.display(dic_text)
+                self.view.display(dic_text)
+                choice = self.view.input()
+
                 if choice == constants.CHOICE_A:
                     self.table = constants.PRODUIT_LIST
                     self.page = 1
@@ -260,7 +265,7 @@ class Controller:
                     if choice.isdigit():
                         choice = int(choice)
                         if self.start_list_item <= choice \
-                                <= self.end_list_item:
+                                <= len(self.list_products)-1:
                             id_choice = int(choice) - self.start_list_item
                             self.substitute_select_id = \
                                 self.list_products[id_choice][2]
@@ -286,7 +291,9 @@ class Controller:
                     constants.LIST_ITEM_SUBSTITUT: self.list_substitut
                 }
                 dic_text = constants.STATE[self.table](data)
-                choice = self.view.display(dic_text)
+                self.view.display(dic_text)
+                choice = self.view.input()
+
                 if choice == constants.CHOICE_A:
                     self.table = constants.HOME
                     self.start_list_item = 0
@@ -311,7 +318,7 @@ class Controller:
                     if choice.isdigit():
                         choice = int(choice)
                         if self.start_list_item <= choice \
-                                <= self.end_list_item:
+                                <= len(self.list_substitut)-1:
                             id_choice = int(choice) - self.start_list_item
                             self.product_select_id = \
                                 self.list_substitut[id_choice][1]
@@ -349,11 +356,13 @@ class Controller:
                         self.product_select[6]
                 }
                 dic_text = constants.STATE[self.table](data)
-                choice = self.view.display(dic_text)
+                self.view.display(dic_text)
+                choice = self.view.input()
+
                 if choice == constants.CHOICE_A:
                     self.table = constants.SUBSTITUT
                     self.start_list_item = 0
-                    self.end_list_item = 20
+                    self.end_list_item = 10
                     self.list_substitut = self.database.get_substitut(
                         self.start_list_item,
                         self.end_list_item

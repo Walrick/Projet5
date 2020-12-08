@@ -124,6 +124,15 @@ class ViewGraphic:
         self.screen.blit(text, (0, 5 + y))
         y += 20
 
+        # Update the screen
+        pygame.display.update()
+        # Resize the screen
+        self.size[1] = y
+        pygame.display.set_mode(self.size)
+        pygame.display.set_caption('Pur Beurre')
+
+    def input(self):
+
         for event in pygame.event.get():
             # For event type KEYDOWN
             if event.type == pygame.KEYDOWN:
@@ -164,15 +173,9 @@ class ViewGraphic:
                 elif event.key == pygame.K_s:
                     self.keydown.append(constants.CHOICE_S)
                 elif event.key == pygame.K_BACKSPACE:
-                    del self.keydown[-1]
-                elif event.key == pygame.K_RETURN:
+                    if not len(self.keydown) == 0:
+                        del self.keydown[-1]
+                elif event.key == pygame.K_RETURN or pygame.K_KP_ENTER:
                     choice = "".join(self.keydown)
                     self.keydown = []
                     return choice
-
-        # Update the screen
-        pygame.display.update()
-        # Resize the screen
-        self.size[1] = y
-        pygame.display.set_mode(self.size)
-        pygame.display.set_caption('Pur Beurre')

@@ -54,5 +54,8 @@ class ViewText:
 
         if constants.CHOICE_TEXT in data:
             print(data[constants.CHOICE_TEXT])
-            choice = input()
-            return choice
+
+    def input(self):
+
+        choice = input()
+        return choice

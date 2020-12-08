@@ -32,6 +32,11 @@ class Database:
             self.cursor.execute(query)
 
     def save_category(self, data):
+        """
+        :param data: [{"name": str, "url": str, "products": int,
+         "known": int, "id": str},..]
+        :return: None
+        """
 
         for category in data:
             # Check if the category is good
@@ -44,7 +49,7 @@ class Database:
                 # check if the category already exists
                 if len(send) == 0:
                     query = """
-                    INSERT INTO Category ( name_category) VALUES( %s)"""
+                    INSERT INTO Category (name_category) VALUES(%s)"""
 
                     self.cursor.execute(query,
                                         (category["name"],))
@@ -52,6 +57,11 @@ class Database:
                     self.database.commit()
 
     def get_category(self, start_list_item, end_list_item):
+        """
+        :param start_list_item: int
+        :param end_list_item: int
+        :return: [(id_category (int), name_category (str)),..]
+        """
 
         query = """SELECT id_category, name_category
         FROM Category
@@ -62,6 +72,17 @@ class Database:
         return data
 
     def save_products(self, data):
+        """
+        :param data: [{"product_name": str,
+                "stores": str,
+                "nutrition_grade_fr": str,
+                "traces: str,
+                "allergens": str,
+                "url": str,
+                ... }..]
+                Look complete documentation in OpenFooFact API
+        :return: None
+        """
 
         for products in data:
             # Check if products already exists
@@ -160,6 +181,25 @@ class Database:
             start_list_item,
             end_list_item,
             length):
+        """
+        :param id_category: int
+        :param start_list_item: int
+        :param end_list_item: int
+        :param length: "SHORT" or "FULL"
+        :return:
+        if length == "SHORT" :
+            [[index, name_products, id_products, nutrition_grade],..]
+        if length == "FULL" :
+            [[index,  # index
+             products[1],  # name_products
+             products[0],  # id_products
+             products[2],  # nutrition_grade
+             products[3],  # store
+             products[4],  # trace
+             products[5],  # allergens
+             products[6]]  # url
+             ,..]
+        """
 
         limit = end_list_item - start_list_item
         query = """select
@@ -207,6 +247,16 @@ class Database:
         return list_products
 
     def get_products_for_id(self, id_prod):
+        """
+        :param id_prod: int
+        :return: (products[0],  # id_products
+             products[1],  # name_products
+             products[2],  # nutrition_grade
+             products[3],  # store
+             products[4],  # trace
+             products[5],  # allergens
+             products[6])  # url
+        """
 
         query = """SELECT
             id_products,
@@ -220,9 +270,15 @@ class Database:
             WHERE id_products = %s """
         self.cursor.execute(query, (id_prod,))
         data = self.cursor.fetchall()
+
         return data
 
     def save_substitut(self, id_substitution_product, id_product):
+        """
+        :param id_substitution_product: str
+        :param id_product: str
+        :return: None
+        """
 
         query = """
             SELECT id_sub_product, id_substitution_product
@@ -244,6 +300,13 @@ class Database:
             self.database.commit()
 
     def get_substitut(self, start_list_item, end_list_item):
+        """
+        :param start_list_item: int
+        :param end_list_item: int
+        :return: [[index (int), id_products (str), name_products (str),
+         COUNT(id_products) (str)],...]
+        """
+
         limit = end_list_item - start_list_item
 
         query = """
@@ -272,6 +335,18 @@ class Database:
         return list_products
 
     def get_substitut_view(self, product_id, start_list_item, end_list_item):
+        """
+        :param product_id: int
+        :param start_list_item: int
+        :param end_list_item: int
+        :return: ((products[0],  # id_products
+             products[1],  # name_products
+             products[2],  # nutrition_grade
+             products[3],  # store
+             products[4],  # trace
+             products[5],  # allergens
+             products[6]),..)  # url
+        """
         limit = end_list_item - start_list_item
 
         query = """

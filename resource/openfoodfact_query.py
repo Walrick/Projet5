@@ -9,7 +9,11 @@ class OpenFoodFactQuery:
     BASE_URL = "https://fr.openfoodfacts.org/"
 
     def get_category(self):
-        """ build category """
+        """
+        Build category by query
+        :return: [{"name": str, "url": str, "products": int,
+         "known": int, "id": str},..]
+        """
 
         search = {
             'countries': 'France',
@@ -21,7 +25,19 @@ class OpenFoodFactQuery:
         return category["tags"]
 
     def product_requests_by_category(self, category, page):
-        """build product by query in category"""
+        """
+        Build product by query in category
+        :param category: str
+        :param page: int
+        :return: [{"product_name": str,
+                "stores": str,
+                "nutrition_grade_fr": str,
+                "traces: str,
+                "allergens": str,
+                "url": str,
+                ... }..]
+                Look complete documentation in OpenFooFact API
+        """
 
         search = {
             'action': 'process',
