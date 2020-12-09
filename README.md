@@ -2,9 +2,10 @@
 Utilisez les données publiques de l'OpenFoodFacts
 
 ## Lancement du programme
+ - Posséder Python en 3.9 
  - Installer les dépendances : pip install -r requirements.txt
  - Renommer le fichier ".env.example.txt" par ".env.txt" et y renseigner vos identifiants de connexion pour la base de donnée.
- - Avoir une base de donnée mySQL installée.  
+ - Avoir une base de donnée mySQL installée.
  - Lancer main.py pour lancer le programme en mode graphique.
  
 ## Option de lancement
